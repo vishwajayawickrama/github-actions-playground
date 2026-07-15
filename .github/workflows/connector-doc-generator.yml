@@ -26,6 +26,16 @@ on:
         required: true
         default: false
         type: boolean
+      dry_run:
+        description: Preview the generation without making changes
+        required: true
+        default: false
+        type: boolean
+      notify_slack:
+        description: Send a mock Slack notification when complete
+        required: true
+        default: true
+        type: boolean
 
 jobs:
   preview-generation:
@@ -39,6 +49,8 @@ jobs:
           echo "Repository: ${{ inputs.connector_repository }}"
           echo "Category: ${{ inputs.category }}"
           echo "Force regeneration: ${{ inputs.force_regeneration }}"
+          echo "Dry run: ${{ inputs.dry_run }}"
+          echo "Notify Slack: ${{ inputs.notify_slack }}"
           echo
           echo "[1/7] Read metadata        — mock"
           echo "[2/7] Resolve version      — mock"
@@ -47,3 +59,15 @@ jobs:
           echo "[5/7] Generate docs        — mock (Phases 1, 2a, and 2b)"
           echo "[6/7] Write files          — mock"
           echo "[7/7] Patch sidebar/catalog — mock"
+      - name: Confirm dry-run mode
+        if: inputs.dry_run
+        run: 'echo "Dry-run checkbox selected: no changes would be made."'
+      - name: Confirm standard mode
+        if: ${{ !inputs.dry_run }}
+        run: 'echo "Dry-run checkbox not selected: normal generation would run."'
+      - name: Confirm mock notification
+        if: inputs.notify_slack
+        run: 'echo "Notify Slack checkbox selected: a notification would be sent."'
+      - name: Confirm notifications disabled
+        if: ${{ !inputs.notify_slack }}
+        run: 'echo "Notify Slack checkbox not selected: no notification would be sent."'
