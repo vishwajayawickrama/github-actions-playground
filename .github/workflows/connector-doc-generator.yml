@@ -1,0 +1,43 @@
+name: Connector Doc Generator (Mock)
+
+on:
+  workflow_dispatch:
+    inputs:
+      connector_repository:
+        description: Connector repository
+        required: true
+        default: salesforce
+        type: choice
+        options:
+          - salesforce
+          - hubspot
+          - slack
+      category:
+        description: Connector category
+        required: true
+        default: CRM & Sales
+        type: choice
+        options:
+          - CRM & Sales
+          - Communication
+          - Productivity
+
+jobs:
+  preview-generation:
+    name: Preview connector documentation generation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print generation preview
+        shell: bash
+        run: |
+          echo "Connector Doc Generator (mock)"
+          echo "Repository: ${{ inputs.connector_repository }}"
+          echo "Category: ${{ inputs.category }}"
+          echo
+          echo "[1/7] Read metadata        — mock"
+          echo "[2/7] Resolve version      — mock"
+          echo "[3/7] Check existing docs  — mock"
+          echo "[4/7] Clone source repo    — mock"
+          echo "[5/7] Generate docs        — mock (Phases 1, 2a, and 2b)"
+          echo "[6/7] Write files          — mock"
+          echo "[7/7] Patch sidebar/catalog — mock"
