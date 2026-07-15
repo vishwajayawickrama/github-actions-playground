@@ -21,6 +21,11 @@ on:
           - CRM & Sales
           - Communication
           - Productivity
+      force_regeneration:
+        description: Regenerate documentation even when it already exists
+        required: true
+        default: false
+        type: boolean
 
 jobs:
   preview-generation:
@@ -33,6 +38,7 @@ jobs:
           echo "Connector Doc Generator (mock)"
           echo "Repository: ${{ inputs.connector_repository }}"
           echo "Category: ${{ inputs.category }}"
+          echo "Force regeneration: ${{ inputs.force_regeneration }}"
           echo
           echo "[1/7] Read metadata        — mock"
           echo "[2/7] Resolve version      — mock"
